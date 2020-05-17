@@ -1,7 +1,8 @@
 import logging
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-
+# Bot configurado con BotFather
+# Obtuve /token, /newbot = Hackathon name=rool_78_bot... t.me/rool_78_bot
 # Activar logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -11,24 +12,20 @@ logger = logging.getLogger(__name__)
 # Definimos algunas funciones para los comandos. Estos generalmente toman los dos argumentos update y context
 def start(update, context):
     """Envia un mensaje cuando se emita el comando /start."""
-    update.message.reply_text("Hola, Geeks!")
-    return "Hola, Emma!"
+    return update.message.reply_text("Hola, rool_78_bot!")
 
 def help(update, context):
     """Envia un mensaje cuando se emita el comando /help."""
-    update.message.reply_text("Ayudame!")
-    return "Ayudame!"
+    return update.message.reply_text("Ayudame!")
 
 def mayus(update, context):
     result = str(context.args[0])
-    update.message.reply_text(result.upper())
-    return result.upper()
+    return update.message.reply_text(result.upper())
 
 def alreves(update, context):
     msg = str(update.message.text)
     msg = msg[::-1]
-    context.bot.send_message(chat_id=update.effective_chat.id, text=msg)
-    return msg
+    return context.bot.send_message(chat_id=update.effective_chat.id, text=msg)
 
 def error(update, context):
     """Envia los errores por consola"""

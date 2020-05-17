@@ -16,7 +16,7 @@ class Context:
 
 def test_command_start():
     update = Update()
-    assert(start(update, '') == 'Hola, Geeks!')
+    assert(start(update, '') == 'Hola, rool_78_bot!')
 
 def test_command_help():
     update = Update()

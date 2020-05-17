@@ -10,7 +10,6 @@ class Snake():
     body = [[100,50], [90,50],[80,50]]
     direction = "RIGHT"
     change = direction
-    speed = 0
 
     # Manejo del pressed [KEYDOWN] de las teclas [K_RIGHT - K_LEFT - K_UP -K_DOWN ]
     def controller(self, event, pygame):
@@ -25,11 +24,6 @@ class Snake():
                 self.direction = "LEFT"
         elif event.type == pygame.KEYUP:
             pass
-
-
-
-       # self.position = self.body[0]
-
 
     # Controla el cambio de  las direcciones
     # Orientaciones
@@ -47,9 +41,6 @@ class Snake():
             self.position[0] += 10
         
         self.body.insert(0, list(self.position))
-        self.body.pop()
-    
-
 
 class Game():
     run = True
@@ -61,9 +52,9 @@ class Game():
 
     # función de salida
     def exit(self, event, pygame):
-        run = False
-        #
-        #
+        #EVENTO DE SALIDA
+        if event.type == pygame.QUIT:
+            self.run = False
     
     # Posición aleatorio entre el rango [0,49] * 10  
     def food_spawn(self):
@@ -74,8 +65,9 @@ class Game():
     def eat(self, snake):
         if self.food_pos[0] == snake.position[0] and self.food_pos[1] == snake.position[1]:
             self.food_spawn()
-            new = snake.position
-            snake.body.insert(0, new)
+            self.score += 1
+        else:
+            snake.body.pop()
 
     # Mensajes de salida cuando el snake muere
     # Posición snake[0] >= 500 ó snake[0] <= 0                  -> Muere
@@ -85,17 +77,21 @@ class Game():
         if snake.position[0] >= 500 or  snake.position[0] <= 0:
             snake.position = [100,50]
             snake.body = [[100,50], [90,50],[80,50]]
+            self.gameOver()
 
         if snake.position[1] >= 500 or snake.position[1] <= 0:
             snake.position = [100,50]
             snake.body = [[100,50], [90,50],[80,50]]
+            self.gameOver()
 
         for i in range(1, len(snake.body)-1):
             if snake.position == snake.body[i]:
-                snake.position = [100,50]
-                snake.body = [[100,50], [90,50],[80,50]]
-
-        
+                self.gameOver()
+    
+    def gameOver(self):
+        self.run = False
+        print('Game over!')
+        print('Your score: ' + str(self.score))
             
 # Entry Point
 def main():
@@ -123,15 +119,15 @@ def main():
         for pos in snake.body:
             pygame.draw.rect(play_surface, (200,200,200), pygame.Rect(pos[0], pos[1], 10, 10))
 
-
         # Dibujar comida
         pygame.draw.rect(play_surface, (255,160,60), pygame.Rect(game.food_pos[0], game.food_pos[1], 10, 10))
 
         game.dead(snake)
 
         pygame.display.flip()
-        fps.tick(10)
 
+        # Velocidad refresco...
+        fps.tick(10)
         
 # Comienza la aventura!!!!
 # Descomentar para lanzar el juego en local
